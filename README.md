@@ -3,6 +3,9 @@
 Given a text file with an outline indented with spaces,
 _drawtree.py_ displays a tree diagram made with Unicode box drawing characters.
 
+> **NOTE**: I wrote a much simpler similar script in 
+> the [Fluent Python 2e repository](https://github.com/fluentpython/example-code-2e/tree/master/17-it-generator/tree/extra)
+
 For example, this command:
 
 ```
