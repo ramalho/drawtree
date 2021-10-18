@@ -5,10 +5,15 @@ import sys
 from textwrap import dedent
 from typing import Tuple
 
-INDENTATION = re.compile(r'^(\s*)(.+)')
-
 BranchId = Tuple[int, ...]
 Outline = dict[BranchId, str]
+
+INDENTATION = re.compile(r'^(\s*)(.+)')
+
+V_LINE = '\N{BOX DRAWINGS LIGHT VERTICAL}'           # │
+H_LINE = '\N{BOX DRAWINGS LIGHT HORIZONTAL}'         # ─
+T_LINE = '\N{BOX DRAWINGS LIGHT VERTICAL AND RIGHT}' # ├
+L_LINE = '\N{BOX DRAWINGS LIGHT UP AND RIGHT}'       # └
 
 
 def sibling(branch: BranchId) -> BranchId:
@@ -36,24 +41,22 @@ class Tree:
         self.outline = {} if outline is None else outline
 
     def indent(self, branch):
-        if len(branch) < 2:
-            return ''
-        else:
-            indents = []
-            for level in range(2, len(branch)):
-                ancestor = branch[:level]
-                if sibling(ancestor) in self.outline:
-                    indents.append('│' + (self.indent_len - 1) * self.indent_char)
-                else:
-                    indents.append(self.indent_len * self.indent_char)
-            return ''.join(indents)
+        indents = []
+        for level in range(2, len(branch)):
+            ancestor = branch[:level]
+            if sibling(ancestor) in self.outline:
+                padding = V_LINE + (self.indent_len - 1) * self.indent_char
+            else:
+                padding = self.indent_len * self.indent_char
+            indents.append(padding)
+        return ''.join(indents)
 
     def connector(self, branch: BranchId) -> str:
         if sibling(branch) in self.outline:
-            wire = '├'
+            wire = T_LINE
         else:
-            wire = '└'
-        return wire + ('─' * self.indent_len)[1:]
+            wire = L_LINE
+        return wire + (H_LINE * self.indent_len)[1:]
 
     def draw_line(self, branch):
         if len(branch) < 2:
