@@ -1,7 +1,12 @@
-# Draw tree diagrams
+# Draw tree diagrams from Python classes
 
-This repository contains two *very different* scripts
-to produce hierarchical tree diagrams like this one:
+Run `drawtree.py` with one argument which may be:
+
+1. The simple name of a built-in class—e.g. `BaseException` is interesting.
+2. The qualified name of any class available to import—e.g. `httpx.HTTPError`,
+   if you installed [*HTTPX*](https://www.python-httpx.org/).
+
+Example:
 
 ```
 $ ./classtree.py collections.abc.Container
@@ -27,11 +32,5 @@ Container
         └── UserString
 ```
 
-Please see the `README.md` files in each directory:
-
-- [`classtree/classtree.py`](classtree/) draws trees for Python classes;
-- [`drawtree/drawtree.py`](drawtree/) draws trees from indented text files.
-
-I wrote the scripts at different times.
-They illustrate very different approaches to the same basic problem.
-`classtree.py` is much simpler.
+> **NOTE**: A class name may appear more than once in the tree
+> because of multiple inheritance.
