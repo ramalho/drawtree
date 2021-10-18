@@ -6,7 +6,7 @@ _drawtree.py_ displays a tree diagram made with the Unicode box drawing characte
 For example, this command:
 
 ```
-$ drawtree.py examples/httpx_exceptions.txt
+$ ./drawtree.py examples/httpx_exceptions.txt
 ```
 
 Produces this output:
