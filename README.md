@@ -1,4 +1,4 @@
-# `drawtree`: draw tree diagrams from indented text input
+# Draw tree diagrams from indented text input
 
 Given a text file with an outline indented with spaces or tabs (but not both),
 _drawtree.py_ displays a tree diagram made with the Unicode box drawing characters.
