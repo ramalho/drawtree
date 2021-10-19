@@ -1,4 +1,6 @@
-from classtree import tree, render_lines
+from textwrap import dedent
+from classtree import tree, render_lines, main
+
 
 def test_1_level():
     result = list(render_lines(tree(TabError)))
@@ -98,3 +100,45 @@ def test_4_levels_4_leaves_dedent():
     result = list(render_lines(tree(A)))
     assert expected == result
 
+
+def test_main_simple(capsys):
+    main('IndentationError')
+    expected = dedent("""
+        IndentationError
+        └── TabError
+    """).lstrip()
+    captured = capsys.readouterr()
+    assert captured.out == expected
+
+
+def test_main_dotted(capsys):
+    main('collections.abc.Sequence')
+    expected = dedent("""
+        Sequence
+        ├── ByteString
+        ├── MutableSequence
+        │   └── UserList
+    """).lstrip()
+    captured = capsys.readouterr()
+    assert captured.out.startswith(expected)
+
+
+def test_main_class_not_found(capsys):
+    main('NoSuchClass')
+    expected = "*** 'NoSuchClass' not found in 'builtins'.\n"
+    captured = capsys.readouterr()
+    assert captured.out == expected
+
+
+def test_main_module_not_found(capsys):
+    main('nosuch.module')
+    expected = "*** Could not import 'nosuch'.\n"
+    captured = capsys.readouterr()
+    assert captured.out == expected
+
+
+def test_main_not_a_class(capsys):
+    main('collections.abc')
+    expected = "*** 'abc' is not a class.\n"
+    captured = capsys.readouterr()
+    assert captured.out == expected
