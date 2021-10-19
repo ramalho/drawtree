@@ -2,15 +2,42 @@ from textwrap import dedent
 from classtree import tree, render_lines, main
 
 
-def test_1_level():
-    result = list(render_lines(tree(TabError)))
-    expected = [
-        'TabError',
+def test_tree_1_level():
+    result = list(tree(TabError))
+    assert result == [(TabError, 0, True)]
+
+
+def test_tree_2_levels():
+    result = list(tree(IndentationError))
+    assert result == [
+        (IndentationError, 0, True),
+        (TabError, 1, True),
     ]
-    assert expected == result
 
 
-def test_2_levels_1_leaf():
+def test_tree_from_type_metaclass():
+    """
+    The `type` class is a special case in the `tree` generator because
+    `type.__subclasses__()` is an unbound method when called on it,
+    so we must call it as `type.__subclasses__(type)` just for `type`.
+
+    This test checks that `abc.ABCMeta` appears at level 1 after `result[0]`.
+    This is needed because `pytest` loads other modules, so `result` may
+    include more subclasses of `type` (i.e. metaclasses) than we get when
+    running `$ classtree.py type` at the command line.
+    """
+    import abc
+    result = list(tree(type))
+    assert result[0] == (type, 0, True)
+    assert (abc.ABCMeta, 1) in {(cls, level) for cls, level, _ in result[1:]}
+
+
+def test_render_lines_1_level():
+    result = list(render_lines(tree(TabError)))
+    assert result == ['TabError']
+
+
+def test_render_lines_2_levels_1_leaf():
     result = list(render_lines(tree(IndentationError)))
     expected = [
         'IndentationError',
@@ -19,7 +46,7 @@ def test_2_levels_1_leaf():
     assert expected == result
 
 
-def test_3_levels_1_leaf():
+def test_render_lines_3_levels_1_leaf():
     class X: pass
     class Y(X): pass
     class Z(Y): pass
@@ -32,7 +59,7 @@ def test_3_levels_1_leaf():
     assert expected == result
 
 
-def test_4_levels_1_leaf():
+def test_render_lines_4_levels_1_leaf():
     class Level0: pass
     class Level1(Level0): pass
     class Level2(Level1): pass
@@ -48,7 +75,7 @@ def test_4_levels_1_leaf():
     assert expected == result
 
 
-def test_2_levels_2_leaves():
+def test_render_lines_2_levels_2_leaves():
     class Branch: pass
     class Leaf1(Branch): pass
     class Leaf2(Branch): pass
@@ -61,7 +88,7 @@ def test_2_levels_2_leaves():
     assert expected == result
 
 
-def test_3_levels_2_leaves_dedent():
+def test_render_lines_3_levels_2_leaves_dedent():
     class A: pass
     class B(A): pass
     class C(B): pass
@@ -79,7 +106,7 @@ def test_3_levels_2_leaves_dedent():
     assert expected == result
 
 
-def test_4_levels_4_leaves_dedent():
+def test_render_lines_4_levels_4_leaves_dedent():
     class A: pass
     class B1(A): pass
     class C1(B1): pass

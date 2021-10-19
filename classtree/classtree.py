@@ -45,19 +45,16 @@ def main(name):
     else:
         module_name, cls_name = 'builtins', name
     try:
-        module = import_module(module_name)
+        cls = getattr(import_module(module_name), cls_name)
     except ModuleNotFoundError:
         print(f'*** Could not import {module_name!r}.')
+    except AttributeError:
+        print(f'*** {cls_name!r} not found in {module_name!r}.')
     else:
-        try:
-            cls = getattr(module, cls_name)
-        except AttributeError:
-            print(f'*** {cls_name!r} not found in {module.__name__!r}.')
+        if isinstance(cls, type):
+            draw(cls)
         else:
-            if isinstance(cls, type):
-                draw(cls)
-            else:
-                print(f'*** {cls_name!r} is not a class.')
+            print(f'*** {cls_name!r} is not a class.')
 
 
 if __name__ == '__main__':
@@ -65,6 +62,6 @@ if __name__ == '__main__':
         main(sys.argv[1])
     else:
         print('Usage:'
-            f'\t{sys.argv[0]} Class          # for builtins\n'
-            f'\t{sys.argv[0]} package.Class  # for the rest'
+            f'\t{sys.argv[0]} Class          # for builtin classes\n'
+            f'\t{sys.argv[0]} package.Class  # for other classes'
         )
