@@ -1,7 +1,7 @@
 # Draw tree diagrams
 
 This repository contains two *very different* scripts
-to produce hierarchical tree diagrams like this one:
+to make hierarchical tree diagrams like this one:
 
 ```
 $ ./classtree.py collections.abc.Container
