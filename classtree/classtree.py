@@ -23,11 +23,11 @@ def tree(cls, level=0, last_sibling=True):
             yield from tree(sub, level + 1, sub is last)
 
 
-def render_lines(tree_iter):
-    cls, _, _ = next(tree_iter)
+def render_lines(tree_generator):
+    cls, _, _ = next(tree_generator)
     yield cls.__name__
     prefix = ''
-    for cls, level, last in tree_iter:
+    for cls, level, last in tree_generator:
         prefix = prefix[: 4 * (level - 1)]
         prefix = prefix.replace(TEE, PIPE).replace(ELBOW, SP * 4)
         prefix += ELBOW if last else TEE
