@@ -33,5 +33,5 @@ Please see the `README.md` files in each directory:
 - [`drawtree/drawtree.py`](drawtree/) draws trees from indented text files.
 
 I wrote the scripts at different times.
-They illustrate very different approaches to the same basic problem.
+They illustrate different approaches to the same basic problem.
 `classtree.py` is much simpler.
