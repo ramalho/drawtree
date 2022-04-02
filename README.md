@@ -30,7 +30,7 @@ Container
 Please see the `README.md` files in each directory:
 
 - [`classtree/classtree.py`](classtree/) draws trees for Python class hierarchies;
-- [`drawtree/drawtree.py`](drawtree/) draws trees from indented text files.
+- [`texttree/texttree.py`](texttree/) draws trees from indented text files.
 
 I wrote the scripts at different times.
 They illustrate different approaches to the same basic problem.

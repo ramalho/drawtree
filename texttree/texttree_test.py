@@ -2,8 +2,8 @@ from textwrap import dedent
 
 import pytest
 
-from drawtree import sibling, parent, child
-from drawtree import Tree
+from texttree import sibling, parent, child
+from texttree import Tree
 
 
 @pytest.mark.parametrize(

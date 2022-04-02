@@ -1,12 +1,12 @@
 # Draw tree diagrams from indented text input
 
 Given a text file with an outline indented with spaces,
-_drawtree.py_ displays a tree diagram made with Unicode box drawing characters.
+_texttree.py_ displays a tree diagram made with Unicode box drawing characters.
 
 For example, this command:
 
 ```
-$ ./drawtree.py examples/httpx_exceptions.txt
+$ ./texttree.py examples/httpx_exceptions.txt
 ```
 
 Produces this output:
